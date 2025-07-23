@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import FileDropDown from './components/FileDropDown';
-import FileListDisplay from './components/FileListDisplay';
+
 import ConnectionForm from './components/ConnectionForm';
 import FileTransfer from './components/FileTransfer';
 import TransferProgress from './components/TransferProgress';
@@ -30,7 +30,7 @@ const Home = () => {
 
   const handleFileSent = (file) => {
     setSentFiles(prev => [...prev, file]);
-    setProgress(0); // Reset progress after complete
+    setProgress(0); 
   };
 
   return (

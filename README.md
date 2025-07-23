@@ -2,89 +2,116 @@
 
 ZapShare is a modern file transfer application that enables seamless, real-time transfer of small files between users using **socket.io**. The app features secure user registration and login, a responsive and cosmic-themed UI, and real-time progress indicators for file transfers.
 
-## Features
+---
 
-- **User Registration & Login:** Secure authentication to access file transfer features.
-- **Responsive UI/UX:** Modern, mobile-friendly interface for easy file selection and transfer.
-- **File Upload & Selection:** Users can upload files from their local device and select recipients.
-- **Real-Time File Transfer:** Uses socket.io for fast, reliable, and real-time file transmission.
-- **Progress Indicators:** Visual feedback and status updates during file transfers.
-- **Data Security:** Secure socket connections and encryption for safe file transfers.
+## 🌟 Preview
 
-## Tech Stack
+### 🔐 Sign In Page
+![Sign In](./assets/signin.png)
 
-- **Frontend:** React, TailwindCSS, socket.io-client
-- **Backend:** Node.js, Express, MongoDB, socket.io
+### 🔑 Login Page
+![Login](./assets/login.png)
 
-## Getting Started
+### 🏠 Home / File Transfer Page
+![Home](./assets/home.png)
 
-### Prerequisites
+---
+
+## ✨ Features
+
+- ✅ **User Registration & Login** — Secure access control
+- ⚡ **Real-Time File Transfer** using Socket.IO
+- 🧾 **Progress Indicators** for feedback on transfer status
+- 🎨 **Responsive UI** with cosmic-themed styling
+- 🔐 **Secure Transfers** using encrypted socket communication
+
+---
+
+## 🔧 Tech Stack
+
+- **Frontend**: React, TailwindCSS, socket.io-client  
+- **Backend**: Node.js, Express.js, MongoDB, socket.io  
+
+---
+
+## 🚀 Getting Started
+
+### 🔎 Prerequisites
 
 - Node.js & npm
 - MongoDB
 
-### Installation
+### 🛠 Installation
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/yourusername/zapshare.git
-   cd zapshare
-   ```
+```bash
+git clone https://github.com/yourusername/zapshare.git
+cd zapshare
+```
 
-2. **Install backend dependencies:**
-   ```bash
-   cd Backend
-   npm install
-   ```
+#### 🔽 Install backend dependencies
+```bash
+cd Backend
+npm install
+```
 
-3. **Install frontend dependencies:**
-   ```bash
-   cd ../Frontend
-   npm install
-   ```
+#### 🔽 Install frontend dependencies
+```bash
+cd ../Frontend
+npm install
+```
 
-### Running the App
+---
 
-1. **Start MongoDB** (if not already running):
-   ```
-   mongod
-   ```
+## ▶️ Running the App
 
-2. **Start the backend server:**
-   ```bash
-   cd Backend
-   node index.js
-   ```
+### 1. Start MongoDB
+```bash
+mongod
+```
 
-3. **Start the frontend dev server:**
-   ```bash
-   cd ../Frontend
-   npm run dev
-   ```
+### 2. Start backend server
+```bash
+cd Backend
+node index.js
+```
 
-4. **Open your browser:**  
-   Visit [http://localhost:5173](http://localhost:5173)
+### 3. Start frontend dev server
+```bash
+cd ../Frontend
+npm run dev
+```
 
-## Usage
+### 4. Open in browser
+Visit [http://localhost:5173](http://localhost:5173)
 
-- **Register** a new account or **login** with existing credentials.
-- **Upload** a file using the drag-and-drop or file picker interface.
-- **Select** a recipient and initiate the transfer.
-- **Monitor** real-time progress and status updates during the transfer.
+---
 
-## Security
+## 🎯 Usage
 
-- All file transfers use **secure socket connections**.
-- Data is **encrypted** during transmission for privacy and safety.
+1. **Register** with your email and password
+2. **Log in** to your account
+3. **Upload** file and select a recipient
+4. **Send** file and watch real-time progress
+5. **Receive** and download shared files
 
-## Roadmap
+---
 
-- [ ] Add recipient selection and user presence via socket.io.
-- [ ] Support for larger files with chunked transfer.
-- [ ] Download history and transfer logs.
-- [ ] Enhanced encryption and security features.
+## 🔒 Security
 
-## License
+- Secure socket connections using Socket.IO
+- File data is encrypted during transmission
+
+---
+
+## 🛣 Roadmap
+
+- [ ] User presence indicator (Online/Offline)
+- [ ] Chunked file transfer for large files
+- [ ] Transfer history & file logs
+- [ ] End-to-end encryption support
+
+---
+
+## 📄 License
 
 MIT
-

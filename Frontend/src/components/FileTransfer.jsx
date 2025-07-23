@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { io } from 'socket.io-client';
-import { useNavigate } from 'react-router-dom';
-export const FileTransfer = ({ senderEmail, recipientEmail }) => {
+
+const FileTransfer = ({ senderEmail, recipientEmail }) => {
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -45,3 +45,5 @@ export const FileTransfer = ({ senderEmail, recipientEmail }) => {
     </div>
   );
 };
+
+export default FileTransfer;

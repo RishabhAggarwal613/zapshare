@@ -3,7 +3,10 @@ import { useLocation } from 'react-router-dom';
 import FileDropDown from './components/FileDropDown';
 import FileListDisplay from './components/FileListDisplay';
 import ConnectionForm from './components/ConnectionForm';
-import { FileTransfer } from './components/FileTransfer'; // make sure path is correct
+import FileTransfer from './components/FileTransfer';
+import TransferProgress from './components/TransferProgress';
+import SentFilesList from './components/SentFilesList';
+
 
 const Upload = () => <span role="img" aria-label="upload">⬆️</span>;
 const LogOut = ({ className }) => <span role="img" aria-label="logout" className={className}>🚪</span>;
@@ -17,14 +20,22 @@ const Home = () => {
   };
 
   const [selectedFile, setSelectedFile] = useState(null);
-  const [connectedTo, setConnectedTo] = useState(null); // email of connected recipient
+  const [connectedTo, setConnectedTo] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [sentFiles, setSentFiles] = useState([]);
 
   const handleConnectionSuccess = (toEmail) => {
     setConnectedTo(toEmail);
   };
 
+  const handleFileSent = (file) => {
+    setSentFiles(prev => [...prev, file]);
+    setProgress(0); // Reset progress after complete
+  };
+
   return (
     <>
+      {/* Header */}
       <header className="border-b border-pink-500/30 bg-gradient-to-br from-[#1a0033] via-[#3a1c71] to-[#ff0080] backdrop-blur-md shadow-lg">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -67,15 +78,28 @@ const Home = () => {
         </div>
       )}
 
-      {/* Connection */}
+      {/* Connection Form */}
       <ConnectionForm currentUserEmail={user.email} onConnectSuccess={handleConnectionSuccess} />
 
-      {/* File Transfer after connection */}
-      {connectedTo && (
-        <FileTransfer senderEmail={user.email} recipientEmail={connectedTo} />
+      {/* File Transfer + Progress */}
+      {connectedTo && selectedFile && (
+        <>
+          <FileTransfer
+            senderEmail={user.email}
+            recipientEmail={connectedTo}
+            selectedFile={selectedFile}
+            onProgressUpdate={setProgress}
+            onFileSent={handleFileSent}
+          />
+          <TransferProgress progress={progress} fileName={selectedFile.name} />
+        </>
       )}
+
+      {/* Sent Files */}
+      <SentFilesList files={sentFiles} />
     </>
   );
 };
 
 export default Home;
+

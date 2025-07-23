@@ -7,13 +7,13 @@ ZapShare is a modern file transfer application that enables seamless, real-time 
 ## 🌟 Preview
 
 ### 🔐 Sign In Page
-![Sign In](./assets/signin.png)
+![Sign In](./Frontend/src/assets/signin.png)
 
 ### 🔑 Login Page
-![Login](./assets/login.png)
+![Login](./Frontend/src/assets/login.png)
 
 ### 🏠 Home / File Transfer Page
-![Home](./assets/home.png)
+![Home](./Frontend/src/assets/home.png)
 
 ---
 

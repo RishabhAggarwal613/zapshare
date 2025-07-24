@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-const FileDropDown = ({ onFileSelect }) => {
+const FileUploader = ({ onFileSelect }) => {
     const [dragActive, setDragActive] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const fileInputRef = useRef(null);
@@ -77,4 +77,4 @@ const FileDropDown = ({ onFileSelect }) => {
     );
 };
 
-export default FileDropDown;
+export default FileUploader;

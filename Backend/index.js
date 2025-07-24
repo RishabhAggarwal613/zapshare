@@ -29,8 +29,11 @@ app.use(express.json());
 mongoose.connect('mongodb://localhost:27017/Zapshare', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+}).then(() => {
+  console.log("✅ MongoDB connected");
+}).catch((err) => {
+  console.error("❌ MongoDB connection error:", err.message);
 });
-console.log("MongoDB connected");
 
 // === LOGIN Route ===
 app.post('/login', async (req, res) => {
@@ -75,11 +78,11 @@ app.post('/register', async (req, res) => {
 const emailToSocketMap = {};
 
 io.on('connection', (socket) => {
-  console.log('User connected:', socket.id);
+  console.log('🟢 User connected:', socket.id);
 
   socket.on('register_email', (email) => {
     emailToSocketMap[email] = socket.id;
-    console.log(`${email} registered with socket ID ${socket.id}`);
+    console.log(`📧 ${email} registered with socket ID ${socket.id}`);
   });
 
   socket.on('connect_to_user', ({ from, to }) => {
@@ -88,8 +91,10 @@ io.on('connection', (socket) => {
       socket.join(to);
       io.to(targetSocketId).emit('connection_success', { from, to });
       socket.emit('connection_success', { from, to });
+      console.log(`🔗 ${from} connected to ${to}`);
     } else {
       socket.emit('connection_failed', { reason: 'User not online or registered' });
+      console.log(`⚠️ Connection failed: ${to} not available`);
     }
   });
 
@@ -101,8 +106,9 @@ io.on('connection', (socket) => {
         fileData,
         fileName
       });
+      console.log(`📁 File "${fileName}" sent to ${to}`);
     } else {
-      console.log(`File transfer failed: ${to} not connected`);
+      console.log(`❌ File transfer failed: ${to} not connected`);
     }
   });
 
@@ -110,15 +116,20 @@ io.on('connection', (socket) => {
     for (let email in emailToSocketMap) {
       if (emailToSocketMap[email] === socket.id) {
         delete emailToSocketMap[email];
+        console.log(`🛑 ${email} disconnected and removed from map`);
         break;
       }
     }
-    console.log('User disconnected:', socket.id);
+    console.log('🔴 User disconnected:', socket.id);
+  });
+
+  socket.on("error", (err) => {
+    console.error("🔥 Socket error:", err);
   });
 });
 
 // === START SERVER ===
 const PORT = 3001;
 server.listen(PORT, () => {
-  console.log(`Server + Socket.IO running on http://localhost:${PORT}`);
+  console.log(`🚀 Server + Socket.IO running at http://localhost:${PORT}`);
 });

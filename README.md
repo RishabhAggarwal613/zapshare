@@ -52,7 +52,7 @@ cd zapshare
 #### 🔽 Install backend dependencies
 ```bash
 cd Backend
-npm install
+npm install express socket.io cors mongoose bcrypt
 ```
 
 #### 🔽 Install frontend dependencies

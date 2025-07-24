@@ -1,15 +1,12 @@
 import { io } from 'socket.io-client';
 
-// Replace this with your backend URL
-const SERVER_URL = 'http://localhost:3001';
-
-const socket = io(SERVER_URL, {
-  autoConnect: false, // Only connect after login/registration if needed
+const socket = io('http://localhost:3001', {
+  autoConnect: false,
   transports: ['websocket'],
-  withCredentials: true , // Allow credentials for CORS
-  reconnection: true, // Enable reconnection attempts
-  reconnectionAttempts: 5, // Retry connection attempts
-  reconnectionDelay: 1000, // Delay between reconnection attempts
+  withCredentials: true,
+  reconnection: true,
+  reconnectionAttempts: 5,
+  reconnectionDelay: 1000,
 });
 
 export default socket;

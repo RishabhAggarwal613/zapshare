@@ -25,73 +25,66 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-white">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 dark:from-gray-900 dark:to-gray-800 text-gray-800 dark:text-white">
       <SocketManager userEmail={user.email} />
       <Navbar user={user} />
 
-      <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12 animate-fade-in">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-12 animate-fade-in">
         {/* Header */}
-        <div className="text-center">
-          <h1 className="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-500 text-transparent bg-clip-text">
+        <header className="text-center">
+          <h1 className="text-5xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-600 to-pink-500 text-transparent bg-clip-text drop-shadow-md">
             Welcome to ZapShare ⚡
           </h1>
-          <p className="mt-4 text-lg text-gray-600 dark:text-gray-300">
-            Secure and instant file sharing in real-time.
+          <p className="mt-4 text-lg text-gray-700 dark:text-gray-300">
+            Send and receive files in real-time — fast, simple, and secure.
           </p>
-        </div>
+        </header>
 
-        {/* Connect */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-lg transition-all p-8">
-          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-            🔗 Connect to a User
-          </h2>
-          <ConnectionForm
-            senderEmail={user.email}
-            setReceiverEmail={setReceiverEmail}
-          />
-        </div>
+        {/* Main Functional Sections */}
+        <section className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {/* Connection Form */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 flex flex-col justify-between space-y-4 hover:shadow-2xl transition duration-300">
+            <h2 className="text-xl font-semibold">🔗 Connect to User</h2>
+            <ConnectionForm senderEmail={user.email} setReceiverEmail={setReceiverEmail} />
+          </div>
 
-        {/* Upload */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-lg transition-all p-8">
-          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-            📤 Upload a File
-          </h2>
-          <FileUploader onFileSelect={setSelectedFile} />
-        </div>
+          {/* File Upload */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 flex flex-col justify-between space-y-4 hover:shadow-2xl transition duration-300">
+            <h2 className="text-xl font-semibold">📤 Upload a File</h2>
+            <FileUploader onFileSelect={setSelectedFile} />
+          </div>
 
-        {/* Transfer */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-lg transition-all p-8">
-          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-            🚀 Send File
-          </h2>
-          <FileTransfer
-            senderEmail={user.email}
-            receiverEmail={receiverEmail}
-            selectedFile={selectedFile}
-            setTransferProgress={setTransferProgress}
-            setSentFiles={setSentFiles}
-          />
-          <TransferProgress progress={transferProgress} />
-        </div>
+          {/* File Transfer */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 flex flex-col justify-between space-y-4 hover:shadow-2xl transition duration-300">
+            <h2 className="text-xl font-semibold">🚀 Send File</h2>
+            <FileTransfer
+              senderEmail={user.email}
+              receiverEmail={receiverEmail}
+              selectedFile={selectedFile}
+              setTransferProgress={setTransferProgress}
+              setSentFiles={setSentFiles}
+            />
+            <TransferProgress progress={transferProgress} />
+          </div>
+        </section>
 
-        {/* Sent Files */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-lg transition-all p-8">
-          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-            📬 Sent Files
-          </h2>
-          <SentFilesList sentFiles={sentFiles} />
-        </div>
+        {/* Sent and Received Files */}
+        <section className="grid gap-8 md:grid-cols-2">
+          {/* Sent Files */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 hover:shadow-2xl transition duration-300">
+            <h2 className="text-xl font-semibold mb-2">📬 Sent Files</h2>
+            <SentFilesList sentFiles={sentFiles} />
+          </div>
 
-        {/* Received Files */}
-        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-md hover:shadow-lg transition-all p-8">
-          <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-            📥 Received Files
-          </h2>
-          <IncomingFiles
-            incomingFiles={incomingFiles}
-            setIncomingFiles={setIncomingFiles}
-          />
-        </div>
+          {/* Received Files */}
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 hover:shadow-2xl transition duration-300">
+            <h2 className="text-xl font-semibold mb-2">📥 Received Files</h2>
+            <IncomingFiles
+              incomingFiles={incomingFiles}
+              setIncomingFiles={setIncomingFiles}
+            />
+          </div>
+        </section>
       </main>
     </div>
   );

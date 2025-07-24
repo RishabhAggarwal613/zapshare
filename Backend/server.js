@@ -6,57 +6,79 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
-  cors: { origin: '*' }
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
 });
 
 app.use(cors());
+app.use(express.json());
 
+// Store email to socket ID mapping
 const emailToSocketMap = {};
 
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
-  // File Transfer
-  socket.on('send_file', ({ to, fileData, fileName }) => {
-    io.to(to).emit('receive_file', { from: socket.id, fileData, fileName });
-  });
-
-  socket.on('join', (userId) => {
-    socket.join(userId);
-  });
-
-  // Email-based User Registration
+  // Register user with email
   socket.on('register_email', (email) => {
     emailToSocketMap[email] = socket.id;
-    console.log(`${email} registered with socket ID ${socket.id}`);
+    console.log(`📧 ${email} registered with socket ID ${socket.id}`);
   });
 
+  // 🔄 Join a specific user room (optional for future features)
+  socket.on('join', (userId) => {
+    socket.join(userId);
+    console.log(`Socket ${socket.id} joined room ${userId}`);
+  });
+
+  // 🔌 Connect two users
   socket.on('connect_to_user', ({ from, to }) => {
     const targetSocketId = emailToSocketMap[to];
+
     if (targetSocketId) {
-      socket.join(to);
+      socket.join(to); // optional room-based design
       io.to(targetSocketId).emit('connection_success', { from, to });
       socket.emit('connection_success', { from, to });
       console.log(`Connected ${from} with ${to}`);
     } else {
       socket.emit('connection_failed', { reason: 'User not online or registered' });
+      console.log(`Connection failed: ${to} not online`);
     }
   });
 
-  // Handle disconnect and cleanup
+  // Handle File Transfer
+  socket.on('send_file', ({ to, fileData, fileName }) => {
+    const targetSocketId = emailToSocketMap[to];
+    if (targetSocketId) {
+      io.to(targetSocketId).emit('receive_file', {
+        from: socket.id,
+        fileData,
+        fileName
+      });
+      console.log(`File "${fileName}" sent from ${socket.id} to ${targetSocketId}`);
+    } else {
+      console.log(`File transfer failed: ${to} not connected`);
+    }
+  });
+
+  // Handle Disconnect
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
 
-    // Clean up email mapping
     for (let email in emailToSocketMap) {
       if (emailToSocketMap[email] === socket.id) {
         delete emailToSocketMap[email];
+        console.log(`🗑️ Removed ${email} from socket map`);
         break;
       }
     }
   });
 });
 
-server.listen(3001, () => {
-  console.log('Socket server listening on port 3001');
+// 🚀 Start Server
+const PORT = 3001;
+server.listen(PORT, () => {
+  console.log(` Socket server listening on port ${PORT}`);
 });

@@ -1,12 +1,22 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const bcrypt = require("bcrypt");
+
 const app = express();
 const UserModel = require('./models/User'); 
+
 app.use(cors());
 app.use(express.json());
-mongoose.connect('mongodb://localhost:27017/Zapshare')
-    
+
+// MongoDB connection
+mongoose.connect('mongodb://localhost:27017/Zapshare', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+console.log("MongoDB connected");
+
+// LOGIN Route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -22,7 +32,8 @@ app.post('/login', async (req, res) => {
             return res.status(404).json({ message: 'User not found.' });
         }
 
-        if (user.password !== password) {
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
             return res.status(401).json({ message: 'Invalid password.' });
         }
 
@@ -33,36 +44,36 @@ app.post('/login', async (req, res) => {
     }
 });
 
-
-
+//  REGISTER Route
 app.post('/register', async (req, res) => {
-    console.log('Incoming request to /register');
-    console.log('req.body:', req.body);
-
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-        console.log('Missing required field');
         return res.status(400).json({ message: 'All fields are required.' });
     }
 
     try {
         const existingUser = await UserModel.findOne({ email });
         if (existingUser) {
-            console.log('Email already registered');
             return res.status(400).json({ message: 'Email already registered.' });
         }
 
-        const user = await UserModel.create({ name, email, password });
-        console.log('User created successfully:', user);
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const user = await UserModel.create({
+            name,
+            email,
+            password: hashedPassword,
+        });
+
+        console.log('User registered:', user.email);
         res.status(201).json({ message: 'User registered successfully', user });
     } catch (err) {
         console.error('Registration error:', err);
-        res.status(400).json({ message: 'Error registering user', error: err.message });
+        res.status(500).json({ message: 'Error registering user', error: err.message });
     }
 });
 
-
-app.listen(3001,() => {
-    console.log('Server is running on port 3001'); }
-);
+app.listen(3001, () => {
+    console.log('Server is running on port 3001');
+});

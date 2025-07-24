@@ -6,7 +6,10 @@ const bcrypt = require("bcrypt");
 const app = express();
 const UserModel = require('./models/User'); 
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 
 // MongoDB connection

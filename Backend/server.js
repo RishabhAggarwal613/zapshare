@@ -7,12 +7,16 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST'],
+     credentials: true
   }
 });
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 
 // Store email to socket ID mapping
@@ -24,7 +28,7 @@ io.on('connection', (socket) => {
   // Register user with email
   socket.on('register_email', (email) => {
     emailToSocketMap[email] = socket.id;
-    console.log(`📧 ${email} registered with socket ID ${socket.id}`);
+    console.log(`${email} registered with socket ID ${socket.id}`);
   });
 
   // 🔄 Join a specific user room (optional for future features)
